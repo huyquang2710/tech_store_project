@@ -1,4 +1,4 @@
-package com.techstore.admin.user;
+package com.techstore.admin.user.repositories;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

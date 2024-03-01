@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.annotation.Rollback;
 
+import com.techstore.admin.user.repositories.UserRepository;
 import com.techstore.common.entities.Role;
 import com.techstore.common.entities.User;
 import com.techstore.common.utils.Constant;
