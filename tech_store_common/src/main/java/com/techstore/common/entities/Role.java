@@ -10,7 +10,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "roles")
 public class Role {
-	
+
 	public Role(String name, String description) {
 		this.name = name;
 		this.description = description;
@@ -23,13 +23,17 @@ public class Role {
 	public Role() {
 	}
 
+	public Role(int id) {
+		this.id = id;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
-	
+
 	@Column(length = 40, nullable = false, unique = true)
 	private String name;
-	
+
 	@Column(length = 150, nullable = false)
 	private String description;
 
