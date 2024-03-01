@@ -57,30 +57,44 @@ public class UserRepositoryTest {
 		Iterable<User> userList = userRepository.findAll();
 		userList.forEach(user -> System.out.println(">>>>>>>>>>>>>>>> User Info : " + user));
 	}
-	
+
 	@Test
 	public void testFindUserById() {
 		User findUser = userRepository.findById(1).get();
 		System.out.println(">>>>>>>>>>>>>>>> User Info : " + findUser);
 		assertThat(findUser).isNotNull();
 	}
+
 	@Test
 	public void testUpdateUser() {
 		User findById = userRepository.findById(1).get();
-		
+
 		System.out.println(">>>>>>>>>>>>>>>> Before User Info : " + findById);
-		
+
 		findById.setEnabled(true);
 		findById.setFirstName("Phung");
 
 		userRepository.save(findById);
-		
+
 		System.out.println(">>>>>>>>>>>>>>>> Alter User Info : " + findById);
 
 	}
+
 	@Test
 	public void testDeleteUser() {
 		Integer userId = 2;
 		userRepository.deleteById(userId);
+	}
+
+	@Test
+	public void testFindUserByEmail() {
+		String email1 = "user@gmail.com";
+		String email2 = "admin@gmail.com";
+
+		User user = userRepository.findUserByEmail(email2);
+		
+		System.out.println(">>>>>>>>>>>>>>>> User Info : " + user);
+
+		assertThat(user).isNotNull();
 	}
 }

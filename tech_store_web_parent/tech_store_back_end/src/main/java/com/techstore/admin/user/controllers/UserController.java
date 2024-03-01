@@ -26,6 +26,8 @@ public class UserController {
 		List<User> userList = userService.findAll();
 
 		model.addAttribute("user", userList);
+		model.addAttribute("pageTitle", "User List");
+		
 		return "users/user";
 	}
 
@@ -40,6 +42,7 @@ public class UserController {
 
 		model.addAttribute("user", user);
 		model.addAttribute("rolesList", roleList);
+		model.addAttribute("pageTitle", "New User");
 
 		return "users/user_form";
 	}

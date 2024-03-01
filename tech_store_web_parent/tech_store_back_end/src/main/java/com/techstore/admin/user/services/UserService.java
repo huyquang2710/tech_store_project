@@ -11,4 +11,6 @@ public interface UserService {
 	List<Role> roleList();
 
 	User saveUser(User user);
+	
+	boolean checkEmailExist(String email);
 }

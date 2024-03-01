@@ -47,4 +47,12 @@ public class UserServiceImpl implements UserService {
 		user.setPassword(encodedPass);
 	}
 
+	@Override
+	public boolean checkEmailExist(String email) {
+
+		User user = userRepository.findUserByEmail(email);
+
+		return user == null;
+	}
+
 }
