@@ -12,10 +12,12 @@ public interface UserService {
 	List<Role> roleList();
 
 	User saveUser(User user);
-	
+
 	boolean checkEmailExist(Integer id, String email);
-	
+
 	User findByid(Integer id) throws UserNotFoundException;
-	
+
 	void deleteUser(Integer id) throws UserNotFoundException;
+
+	void updateUserEnableStatus(Integer id, boolean enabled);
 }

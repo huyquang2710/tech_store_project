@@ -105,4 +105,10 @@ public class UserRepositoryTest {
 
 		assertThat(coungById).isNotNull().isGreaterThan(0);
 	}
+	
+	@Test
+	public void testUpdateStatusEnabled() {
+		Integer id = 1;
+		userRepository.updateEnableStatus(id, true);
+	}
 }

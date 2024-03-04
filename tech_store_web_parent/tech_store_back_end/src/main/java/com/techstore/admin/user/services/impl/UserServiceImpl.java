@@ -2,6 +2,8 @@ package com.techstore.admin.user.services.impl;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ import com.techstore.common.entities.User;
 import com.techstore.common.utils.MessageConstant;
 
 @Service
+@Transactional
 public class UserServiceImpl implements UserService {
 
 	@Autowired
@@ -97,6 +100,11 @@ public class UserServiceImpl implements UserService {
 			throw new UserNotFoundException(MessageConstant.MESSAGE_CANNOT_FIND_USER + id);
 		}
 		userRepository.deleteById(id);
+	}
+
+	@Override
+	public void updateUserEnableStatus(Integer id, boolean enabled) {
+		userRepository.updateEnableStatus(id, enabled);
 	}
 
 }

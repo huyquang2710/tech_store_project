@@ -90,4 +90,15 @@ public class UserController {
 		}
 		return "redirect:/users";
 	}
+
+	@GetMapping("/{id}/enabled/{status}")
+	public String updateEnabledStatus(@PathVariable(name = "id") Integer id, @PathVariable("status") boolean enabled,
+			Model model, RedirectAttributes attributes) {
+		
+		userService.updateUserEnableStatus(id, enabled);
+		
+		attributes.addFlashAttribute(Constant.MESSAGE, MessageConstant.MESSAGE_UPDATED_ENABLE_STATUS);
+
+		return "redirect:/users";
+	}
 }
