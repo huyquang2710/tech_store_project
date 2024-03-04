@@ -53,8 +53,8 @@
 		<div>
 			<h1>User Manage</h1>
 
-			<a th:href="@{/users/new}" >Create New User</a>
-			
+			<a th:href="@{/users/new}">Create New User</a>
+
 		</div>
 		</br>
 		<!-- message start -->
@@ -93,18 +93,50 @@
 						<td>
 							<a th:href="@{'/users/edit/' + ${user.id}}" class="fas fa-edit fa-2x icon-green"></a>
 							&nbsp;
-							<a th:href="@{'/users/delete/' + ${user.id}}" class="fas fa-trash fa-2x icon-dark"></a>
+							<a th:fullname = "${user.firstName} + '&nbsp;' + ${user.lastName} " th:href="@{'/users/delete/' + ${user.id}}"
+								class="fas fa-trash fa-2x icon-dark link-delete"></a>
 						</td>
 					</tr>
 				</tbody>
 			</table>
 		</div>
+<!-- modal -->
+	<div class="modal fade text-center" id="confirmModal">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="modalTitle">Delete Confirmation</h4>
+				</div>
+				<div class="modal-body">
+					<span id="modalBody"></span>
+				</div>
+				<div class="modal-footer">
+					</br>
+					<a href="" class="btn btn-success" id="yesBtn">Yes</a>
+					<button class="btn btn-danger" type="button" data-dismiss="modal">No</button>
+				</div>
+			</div>
+		</div>
+	</div>
 
 		<div class="text-center">
 			<p>Techstore Control Panel - Copyright &copy; HuyQuang
 		</div>
 	</div>
-
+	
+	<script>
+		$(document).ready(function () {
+			$(".link-delete").on("click", function (e) {
+				e.preventDefault();
+				//alert($(this).attr("href"));
+				link = $(this);
+				fullname = link.attr("fullname");
+				$("#yesBtn").attr("href", link.attr("href"));
+				$("#modalBody").text("Do you want to delete: " + fullname);
+				$("#confirmModal").modal();
+			});
+		});
+	</script>
 </body>
 
 </html>

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.techstore.admin.user.exceptions.UserNotFoundException;
 import com.techstore.admin.user.services.UserService;
 import com.techstore.common.entities.Role;
 import com.techstore.common.entities.User;
@@ -64,7 +65,7 @@ public class UserController {
 	public String editUser(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
 		try {
 			User user = userService.findByid(id);
-			
+
 			// get role list
 			List<Role> roleList = userService.roleList();
 
@@ -77,5 +78,16 @@ public class UserController {
 			redirectAttributes.addFlashAttribute(Constant.MESSAGE, e.getMessage());
 			return "redirect:/users";
 		}
+	}
+
+	@GetMapping("/delete/{id}")
+	public String deleteUser(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
+		try {
+			userService.deleteUser(id);
+			redirectAttributes.addFlashAttribute(Constant.MESSAGE, MessageConstant.MESSAGE_DELETE_USER_SUCCESS);
+		} catch (UserNotFoundException e) {
+			redirectAttributes.addFlashAttribute(Constant.MESSAGE, e.getMessage());
+		}
+		return "redirect:/users";
 	}
 }

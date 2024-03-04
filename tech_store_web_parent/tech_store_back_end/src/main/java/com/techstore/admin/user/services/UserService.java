@@ -16,4 +16,6 @@ public interface UserService {
 	boolean checkEmailExist(Integer id, String email);
 	
 	User findByid(Integer id) throws UserNotFoundException;
+	
+	void deleteUser(Integer id) throws UserNotFoundException;
 }

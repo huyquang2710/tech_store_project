@@ -90,4 +90,13 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+	@Override
+	public void deleteUser(Integer id) throws UserNotFoundException {
+		Long countById = userRepository.countById(id);
+		if (countById == null || countById == 0) {
+			throw new UserNotFoundException(MessageConstant.MESSAGE_CANNOT_FIND_USER + id);
+		}
+		userRepository.deleteById(id);
+	}
+
 }
