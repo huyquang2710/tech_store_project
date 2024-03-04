@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -13,6 +14,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.techstore.admin.user.services.UserService;
 import com.techstore.common.entities.Role;
 import com.techstore.common.entities.User;
+import com.techstore.common.utils.Constant;
+import com.techstore.common.utils.MessageConstant;
 
 @Controller
 @RequestMapping("/users")
@@ -25,9 +28,9 @@ public class UserController {
 	public String listAllUser(Model model) {
 		List<User> userList = userService.findAll();
 
-		model.addAttribute("user", userList);
-		model.addAttribute("pageTitle", "User List");
-		
+		model.addAttribute(Constant.USER, userList);
+		model.addAttribute(Constant.PAGE_TITLE, Constant.USER_LIST);
+
 		return "users/user";
 	}
 
@@ -40,9 +43,9 @@ public class UserController {
 		User user = new User();
 		user.setEnabled(true);
 
-		model.addAttribute("user", user);
-		model.addAttribute("rolesList", roleList);
-		model.addAttribute("pageTitle", "New User");
+		model.addAttribute(Constant.USER, user);
+		model.addAttribute(Constant.ROLE_LIST, roleList);
+		model.addAttribute(Constant.PAGE_TITLE, Constant.CREATE_NEW_USER);
 
 		return "users/user_form";
 	}
@@ -52,8 +55,27 @@ public class UserController {
 
 		System.out.println(">>>>>>>>>>>>>>> : User save: " + user);
 
-		redirectAttributes.addFlashAttribute("message", "The user has been saved successfully");
+		redirectAttributes.addFlashAttribute(Constant.MESSAGE, MessageConstant.MESSAGE_SAVE_USER_SUCCESS);
 		userService.saveUser(user);
 		return "redirect:/users";
+	}
+
+	@GetMapping("/edit/{id}")
+	public String editUser(@PathVariable("id") Integer id, Model model, RedirectAttributes redirectAttributes) {
+		try {
+			User user = userService.findByid(id);
+			
+			// get role list
+			List<Role> roleList = userService.roleList();
+
+			model.addAttribute(Constant.USER, user);
+			model.addAttribute(Constant.PAGE_TITLE, Constant.UPDATE_USER + ": " + user.getLastName());
+			model.addAttribute(Constant.ROLE_LIST, roleList);
+
+			return "users/user_form";
+		} catch (Exception e) {
+			redirectAttributes.addFlashAttribute(Constant.MESSAGE, e.getMessage());
+			return "redirect:/users";
+		}
 	}
 }

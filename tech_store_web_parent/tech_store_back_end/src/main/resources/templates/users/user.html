@@ -53,7 +53,8 @@
 		<div>
 			<h1>User Manage</h1>
 
-			<a th:href="@{/users/new}">Create New User</a>
+			<a th:href="@{/users/new}" >Create New User</a>
+			
 		</div>
 		</br>
 		<!-- message start -->
@@ -90,9 +91,9 @@
 							<a th:if="${user.enabled == false}" href="" class="fas fa-check-circle fa-2x icon-dark"></a>
 						</td>
 						<td>
-							<a href="" class="fas fa-edit fa-2x icon-green"></a>
+							<a th:href="@{'/users/edit/' + ${user.id}}" class="fas fa-edit fa-2x icon-green"></a>
 							&nbsp;
-							<a href="" class="fas fa-trash fa-2x icon-dark"></a>
+							<a th:href="@{'/users/delete/' + ${user.id}}" class="fas fa-trash fa-2x icon-dark"></a>
 						</td>
 					</tr>
 				</tbody>

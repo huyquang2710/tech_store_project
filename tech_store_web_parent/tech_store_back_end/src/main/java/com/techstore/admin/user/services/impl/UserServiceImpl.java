@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.techstore.admin.user.exceptions.UserNotFoundException;
 import com.techstore.admin.user.repositories.RoleRepository;
 import com.techstore.admin.user.repositories.UserRepository;
 import com.techstore.admin.user.services.UserService;
 import com.techstore.common.entities.Role;
 import com.techstore.common.entities.User;
+import com.techstore.common.utils.MessageConstant;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -37,8 +39,19 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User saveUser(User user) {
 
-		encodePass(user);
+		boolean isUpdatingUser = (user.getId() != null);
 
+		if (isUpdatingUser) {
+			User existingUser = userRepository.findById(user.getId()).get();
+
+			if (user.getPassword().isEmpty()) {
+				user.setPassword(existingUser.getPassword());
+			} else {
+				encodePass(user);
+			}
+		} else {
+			encodePass(user);
+		}
 		return userRepository.save(user);
 	}
 
@@ -48,11 +61,33 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public boolean checkEmailExist(String email) {
+	public boolean checkEmailExist(Integer id, String email) {
 
 		User user = userRepository.findUserByEmail(email);
 
-		return user == null;
+		if (user == null)
+			return true;
+
+		boolean isCreatingNew = (id == null);
+
+		if (isCreatingNew) {
+			if (user != null)
+				return false;
+		} else {
+			if (user.getId() != id) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	@Override
+	public User findByid(Integer id) throws UserNotFoundException {
+		try {
+			return userRepository.findById(id).get();
+		} catch (Exception e) {
+			throw new UserNotFoundException(MessageConstant.MESSAGE_CANNOT_FIND_USER + id);
+		}
 	}
 
 }
