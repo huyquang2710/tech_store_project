@@ -45,17 +45,17 @@ public class UserController {
 
 	@GetMapping
 	public String listFirstPage(Model model) {
-		return listAllByPage(1, Constant.FRIST_NAME, Constant.ASC, model);
+		return listAllByPage(1, Constant.ID, Constant.ASC, model, null);
 	}
 
 	@GetMapping("/page/{pageNum}")
 	public String listAllByPage(@PathVariable("pageNum") int pageNum, @Param("sortField") String sortField,
-			@Param("sortDir") String sortDir, Model model) {
+			@Param("sortDir") String sortDir, Model model, @Param("keyword") String keyword) {
 
 		System.out.println(">>>>>>>>>>>>>>> : Sort Field: " + sortField);
 		System.out.println(">>>>>>>>>>>>>>> : Sort Order: " + sortDir);
 
-		Page<User> pageUser = userService.findAllPage(pageNum, sortField, sortDir);
+		Page<User> pageUser = userService.findAllPage(pageNum, sortField, sortDir, keyword);
 		List<User> userList = pageUser.getContent();
 
 		long startCount = (pageNum - 1) * UserServiceImpl.USERS_PER_PAGE + 1;
