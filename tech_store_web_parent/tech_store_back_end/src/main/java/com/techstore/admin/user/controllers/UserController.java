@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.techstore.admin.common.utils.FileUploadUtils;
 import com.techstore.admin.user.exceptions.UserNotFoundException;
 import com.techstore.admin.user.services.UserService;
+import com.techstore.admin.user.services.impl.UserServiceImpl;
 import com.techstore.common.entities.Role;
 import com.techstore.common.entities.User;
 import com.techstore.common.utils.Constant;
@@ -30,13 +32,46 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
+//	@GetMapping
+//	public String listAllUser(Model model) {
+//		List<User> userList = userService.findAll();
+//
+//		model.addAttribute(Constant.USER, userList);
+//		model.addAttribute(Constant.PAGE_TITLE, Constant.USER_LIST);
+//
+//		return "users/user";
+//	}
+
 	@GetMapping
-	public String listAllUser(Model model) {
-		List<User> userList = userService.findAll();
+	public String listFirstPage(Model model) {
+		return listAllByPage(1, model);
+	}
 
+	@GetMapping("/page/{pageNum}")
+	public String listAllByPage(@PathVariable("pageNum") int pageNum, Model model) {
+		Page<User> pageUser = userService.findAllPage(pageNum);
+		List<User> userList = pageUser.getContent();
+
+		long startCount = (pageNum - 1) * UserServiceImpl.USERS_PER_PAGE + 1;
+		long endCount = startCount + UserServiceImpl.USERS_PER_PAGE - 1;
+		if (endCount > pageUser.getTotalElements()) {
+			endCount = pageUser.getTotalElements();
+		}
+
+		System.out.println("Page Num: " + pageNum);
+		System.out.println("Total element: " + pageUser.getTotalElements());
+		System.out.println("Total page: " + pageUser.getTotalPages());
+		System.out.println("statrt count: " + startCount);
+		System.out.println("end count: " + endCount);
+
+		model.addAttribute(Constant.CURRENT_PAGE, pageNum);
+		model.addAttribute(Constant.START_COUNT, startCount);
+		model.addAttribute(Constant.END_COUNT, endCount);
+		model.addAttribute(Constant.TOTAL_ITEMS, pageUser.getTotalElements());
+		model.addAttribute(Constant.TOTAL_PAGES, pageUser.getTotalPages());
 		model.addAttribute(Constant.USER, userList);
-		model.addAttribute(Constant.PAGE_TITLE, Constant.USER_LIST);
 
+		model.addAttribute(Constant.PAGE_TITLE, Constant.USER_LIST);
 		return "users/user";
 	}
 

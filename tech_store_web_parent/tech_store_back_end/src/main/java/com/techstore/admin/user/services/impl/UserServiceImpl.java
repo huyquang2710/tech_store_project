@@ -5,6 +5,9 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +22,8 @@ import com.techstore.common.utils.MessageConstant;
 @Service
 @Transactional
 public class UserServiceImpl implements UserService {
+
+	public static final int USERS_PER_PAGE = 4;
 
 	@Autowired
 	private UserRepository userRepository;
@@ -105,6 +110,13 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void updateUserEnableStatus(Integer id, boolean enabled) {
 		userRepository.updateEnableStatus(id, enabled);
+	}
+
+	@Override
+	public Page<User> findAllPage(int pageNumber) {
+		
+		Pageable pageable = PageRequest.of(pageNumber - 1, USERS_PER_PAGE);
+		return userRepository.findAll(pageable);
 	}
 
 }

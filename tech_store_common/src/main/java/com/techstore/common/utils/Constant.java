@@ -16,4 +16,14 @@ public class Constant {
 	public static final String CREATE_NEW_USER = "Create New User";
 	
 	public static final String UPDATE_USER = "Update User";
+	
+	public static final String CURRENT_PAGE = "currentPage";
+	
+	public static final String START_COUNT = "startCount";
+	
+	public static final String END_COUNT = "endCount";
+	
+	public static final String TOTAL_ITEMS = "totalItems";
+	
+	public static final String TOTAL_PAGES = "totalPages";
 }
