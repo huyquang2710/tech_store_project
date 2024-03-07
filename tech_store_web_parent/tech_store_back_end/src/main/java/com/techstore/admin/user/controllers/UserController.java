@@ -24,6 +24,7 @@ import com.techstore.admin.user.services.impl.UserServiceImpl;
 import com.techstore.common.entities.Role;
 import com.techstore.common.entities.User;
 import com.techstore.common.utils.Constant;
+import com.techstore.common.utils.DirectUtil;
 import com.techstore.common.utils.MessageConstant;
 
 @Controller
@@ -128,7 +129,7 @@ public class UserController {
 		System.out.println(">>>>>>>>>>>>>>> : User save: " + user);
 
 		redirectAttributes.addFlashAttribute(Constant.MESSAGE, MessageConstant.MESSAGE_SAVE_USER_SUCCESS);
-		return "redirect:/users";
+		return DirectUtil.getRedirectURLtoAffectedUser(user);
 	}
 
 	@GetMapping("/edit/{id}")
