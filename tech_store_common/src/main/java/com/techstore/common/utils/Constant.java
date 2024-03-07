@@ -26,4 +26,16 @@ public class Constant {
 	public static final String TOTAL_ITEMS = "totalItems";
 	
 	public static final String TOTAL_PAGES = "totalPages";
+	
+	public static final String ASC = "asc";
+	
+	public static final String DESC = "desc";
+	
+	public static final String SORT_FIELD = "sortField";
+	
+	public static final String SORT_DIR = "sortDir";
+	
+	public static final String REVERSE_SORT_DIR = "reverseSortDir";
+	
+	public static final String FRIST_NAME = "firstName";
 }

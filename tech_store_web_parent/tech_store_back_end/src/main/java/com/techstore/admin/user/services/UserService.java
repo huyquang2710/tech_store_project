@@ -23,5 +23,5 @@ public interface UserService {
 
 	void updateUserEnableStatus(Integer id, boolean enabled);
 	
-	Page<User> findAllPage(int pageNumber);
+	Page<User> findAllPage(int pageNumber, String sortField, String sortDir);
 }

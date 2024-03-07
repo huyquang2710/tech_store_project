@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -44,12 +45,17 @@ public class UserController {
 
 	@GetMapping
 	public String listFirstPage(Model model) {
-		return listAllByPage(1, model);
+		return listAllByPage(1, Constant.FRIST_NAME, Constant.ASC, model);
 	}
 
 	@GetMapping("/page/{pageNum}")
-	public String listAllByPage(@PathVariable("pageNum") int pageNum, Model model) {
-		Page<User> pageUser = userService.findAllPage(pageNum);
+	public String listAllByPage(@PathVariable("pageNum") int pageNum, @Param("sortField") String sortField,
+			@Param("sortDir") String sortDir, Model model) {
+
+		System.out.println(">>>>>>>>>>>>>>> : Sort Field: " + sortField);
+		System.out.println(">>>>>>>>>>>>>>> : Sort Order: " + sortDir);
+
+		Page<User> pageUser = userService.findAllPage(pageNum, sortField, sortDir);
 		List<User> userList = pageUser.getContent();
 
 		long startCount = (pageNum - 1) * UserServiceImpl.USERS_PER_PAGE + 1;
@@ -58,18 +64,25 @@ public class UserController {
 			endCount = pageUser.getTotalElements();
 		}
 
-		System.out.println("Page Num: " + pageNum);
-		System.out.println("Total element: " + pageUser.getTotalElements());
-		System.out.println("Total page: " + pageUser.getTotalPages());
-		System.out.println("statrt count: " + startCount);
-		System.out.println("end count: " + endCount);
+		String reverseSortDir = sortDir.equals(Constant.ASC) ? Constant.DESC : Constant.ASC;
+
+		System.out.println(">>>>>>>>>>>>>>> : Page Num: " + pageNum);
+		System.out.println(">>>>>>>>>>>>>>> : Total element: " + pageUser.getTotalElements());
+		System.out.println(">>>>>>>>>>>>>>> : Total page: " + pageUser.getTotalPages());
+		System.out.println(">>>>>>>>>>>>>>> : statrt count: " + startCount);
+		System.out.println(">>>>>>>>>>>>>>> : end count: " + endCount);
 
 		model.addAttribute(Constant.CURRENT_PAGE, pageNum);
 		model.addAttribute(Constant.START_COUNT, startCount);
 		model.addAttribute(Constant.END_COUNT, endCount);
 		model.addAttribute(Constant.TOTAL_ITEMS, pageUser.getTotalElements());
 		model.addAttribute(Constant.TOTAL_PAGES, pageUser.getTotalPages());
+
 		model.addAttribute(Constant.USER, userList);
+
+		model.addAttribute(Constant.SORT_FIELD, sortField);
+		model.addAttribute(Constant.SORT_DIR, sortDir);
+		model.addAttribute(Constant.REVERSE_SORT_DIR, reverseSortDir);
 
 		model.addAttribute(Constant.PAGE_TITLE, Constant.USER_LIST);
 		return "users/user";
