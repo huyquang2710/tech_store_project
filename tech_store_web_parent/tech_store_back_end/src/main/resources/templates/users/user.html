@@ -54,6 +54,12 @@
 			<h1>User Manage</h1>
 
 			<a th:href="@{/users/new}">Create New User</a>
+			&nbsp;&nbsp;
+			<a th:href="@{/users/export/csv}">Export To CSV</a>
+			&nbsp;&nbsp;
+			<a th:href="@{/users/export/excel}">Export To Excel</a>
+			&nbsp;&nbsp;
+			<a th:href="@{/users/export/pdf}">Export To PDF</a>
 
 		</div>
 		</br>
@@ -140,29 +146,29 @@
 
 		<div th:if="${totalPages > 1}">
 			<nav>
-			  <ul class="pagination justify-content-center">
-			    <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
-			    	<a th:replace="fragments :: page_link(1, 'First')"></a>
-			    </li>		  
-			    <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
-			    	<a th:replace="fragments :: page_link(${currentPage - 1}, 'Previous')"></a>
-			    </li>
-	
-			    <li th:class="${currentPage != i ? 'page-item': 'page-item active'}" 
-			    	th:each="i : ${#numbers.sequence(1, totalPages)}">
-			    	<a th:replace="fragments :: page_link(${i}, ${i})"></a>
-			    </li>
-	
-	
-			    <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
-			    	<a th:replace="fragments :: page_link(${currentPage + 1}, 'Next')"></a>
-			    </li>
-	
-			    <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
-			    	<a th:replace="fragments :: page_link(${totalPages}, 'Last')"></a>
-			    </li>		    
-			  </ul>
-			</nav>	
+				<ul class="pagination justify-content-center">
+					<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+						<a th:replace="fragments :: page_link(1, 'First')"></a>
+					</li>
+					<li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'}">
+						<a th:replace="fragments :: page_link(${currentPage - 1}, 'Previous')"></a>
+					</li>
+
+					<li th:class="${currentPage != i ? 'page-item': 'page-item active'}"
+						th:each="i : ${#numbers.sequence(1, totalPages)}">
+						<a th:replace="fragments :: page_link(${i}, ${i})"></a>
+					</li>
+
+
+					<li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+						<a th:replace="fragments :: page_link(${currentPage + 1}, 'Next')"></a>
+					</li>
+
+					<li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+						<a th:replace="fragments :: page_link(${totalPages}, 'Last')"></a>
+					</li>
+				</ul>
+			</nav>
 		</div>
 
 		<!-- modal -->

@@ -24,4 +24,5 @@ public interface UserRepository extends PagingAndSortingRepository<User, Integer
 
 	@Query("SELECT u FROM User u WHERE CONCAT(u.id, ' ', u.email, ' ', u.firstName, ' '," + " u.lastName) LIKE %?1%")
 	public Page<User> findByKey(String keyword, Pageable pageable);
+	
 }

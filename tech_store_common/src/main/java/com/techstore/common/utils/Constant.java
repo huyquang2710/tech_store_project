@@ -40,4 +40,8 @@ public class Constant {
 	public static final String FRIST_NAME = "firstName";
 	
 	public static final String ID = "id";
+	
+	public static final String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd_HH-mm-ss";
+	
+	public static final String UTF8 = "UTF-8";
 }

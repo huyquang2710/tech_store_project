@@ -3,6 +3,8 @@ package com.techstore.admin.user.controllers;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
@@ -18,6 +20,9 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.techstore.admin.common.utils.FileUploadUtils;
+import com.techstore.admin.common.utils.UserCsvExporter;
+import com.techstore.admin.common.utils.UserExcelExporter;
+import com.techstore.admin.common.utils.UserPdfExporter;
 import com.techstore.admin.user.exceptions.UserNotFoundException;
 import com.techstore.admin.user.services.UserService;
 import com.techstore.admin.user.services.impl.UserServiceImpl;
@@ -171,5 +176,26 @@ public class UserController {
 		attributes.addFlashAttribute(Constant.MESSAGE, MessageConstant.MESSAGE_UPDATED_ENABLE_STATUS);
 
 		return "redirect:/users";
+	}
+
+	@GetMapping("/export/csv")
+	public void exportCSV(HttpServletResponse response) throws IOException {
+		List<User> userList = userService.findAll();
+		UserCsvExporter userCsvExporter = new UserCsvExporter();
+		userCsvExporter.export(userList, response);
+	}
+
+	@GetMapping("/export/excel")
+	public void exportExcel(HttpServletResponse response) throws IOException {
+		List<User> userList = userService.findAll();
+		UserExcelExporter userExcelExporter = new UserExcelExporter();
+		userExcelExporter.export(userList, response);
+	}
+
+	@GetMapping("/export/pdf")
+	public void exportPDF(HttpServletResponse response) throws IOException {
+		List<User> userList = userService.findAll();
+		UserPdfExporter userPdfExporter = new UserPdfExporter();
+		userPdfExporter.export(userList, response);
 	}
 }
