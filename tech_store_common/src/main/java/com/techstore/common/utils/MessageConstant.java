@@ -15,4 +15,6 @@ public class MessageConstant {
 	public static final String MESSAGE_COUNT_NOT_DELETE_FILE = "Could Not Delete File";
 	
 	public static final String MESSAGE_COUNT_NOT_LIST_DIRECTORY = "Could Not List Directory";
+	
+	public static final String MESSAGE_COUNT_NOT_FIND_USER = "Could Not Find User With Email: ";
 }
