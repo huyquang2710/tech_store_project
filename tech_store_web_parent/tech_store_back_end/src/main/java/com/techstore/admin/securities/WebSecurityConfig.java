@@ -29,7 +29,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().anyRequest().authenticated().and().formLogin().loginPage("/login")
-				.usernameParameter("email").passwordParameter("password").permitAll().and().logout().permitAll();
+				.usernameParameter("email")
+				.passwordParameter("password")
+				.permitAll()
+				.and()
+				.logout()
+				.permitAll()
+				.and()
+				.rememberMe()
+				.key("AbcDefgKLDSLmvop_0123456789")
+				.tokenValiditySeconds(7 * 24 * 60 * 60); // 7 days 24 hours 60 minutes 60 seconds -> 7days 
+				;
 	}
 
 	// Before authenticated, all matchers can be ignored and all these are
