@@ -65,11 +65,6 @@ public class UserServiceImpl implements UserService {
 		return userRepository.save(user);
 	}
 
-	private void encodePass(User user) {
-		String encodedPass = passwordEncoder.encode(user.getPassword());
-		user.setPassword(encodedPass);
-	}
-
 	@Override
 	public boolean checkEmailExist(Integer id, String email) {
 
@@ -126,6 +121,36 @@ public class UserServiceImpl implements UserService {
 			return userRepository.findByKey(keyword, pageable);
 		}
 		return userRepository.findAll(pageable);
+	}
+
+	@Override
+	public User getUserByEmail(String email) {
+		return userRepository.findUserByEmail(email);
+	}
+
+	@Override
+	public User updateAccount(User userInForm) {
+
+		User userInDB = userRepository.findById(userInForm.getId()).get();
+
+		if (!userInForm.getPassword().isEmpty()) {
+			userInDB.setPassword(userInForm.getPassword());
+			encodePass(userInDB);
+		}
+
+		if (userInForm.getPhotos() != null) {
+			userInDB.setPhotos(userInForm.getPhotos());
+		}
+
+		userInDB.setFirstName(userInForm.getFirstName());
+		userInDB.setLastName(userInForm.getLastName());
+
+		return userRepository.save(userInDB);
+	}
+
+	private void encodePass(User user) {
+		String encodedPass = passwordEncoder.encode(user.getPassword());
+		user.setPassword(encodedPass);
 	}
 
 }

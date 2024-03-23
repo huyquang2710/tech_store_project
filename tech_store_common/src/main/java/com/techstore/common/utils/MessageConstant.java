@@ -17,4 +17,6 @@ public class MessageConstant {
 	public static final String MESSAGE_COUNT_NOT_LIST_DIRECTORY = "Could Not List Directory";
 	
 	public static final String MESSAGE_COUNT_NOT_FIND_USER = "Could Not Find User With Email: ";
+	
+	public static final String MESSAGE_YOUR_ACCOUNT_HAVE_BEEN_UPDATED = "Your Account Details Have Been Updated.";
 }

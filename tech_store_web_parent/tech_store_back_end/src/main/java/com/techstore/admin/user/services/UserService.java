@@ -22,6 +22,10 @@ public interface UserService {
 	void deleteUser(Integer id) throws UserNotFoundException;
 
 	void updateUserEnableStatus(Integer id, boolean enabled);
-	
+
 	Page<User> findAllPage(int pageNumber, String sortField, String sortDir, String keyword);
+
+	User getUserByEmail(String email);
+
+	User updateAccount(User userInForm);
 }
