@@ -110,6 +110,21 @@ public class Category {
 		super();
 	}
 
+	public Category(String name) {
+		this.name = name;
+		this.alias = name.toUpperCase();
+		this.image = "default.jpg";
+	}
+
+	public Category(String name, Category parent) {
+		this(name);
+		this.parent = parent;
+	}
+
+	public Category(Integer id) {
+		this.id = id;
+	}
+
 	@Override
 	public String toString() {
 		return "Category [id=" + id + ", name=" + name + ", alias=" + alias + ", image=" + image + ", enabled="
