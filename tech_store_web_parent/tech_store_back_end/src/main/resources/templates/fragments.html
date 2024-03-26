@@ -10,13 +10,15 @@
 
 	<link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
 	<link rel="stylesheet" type="text/css" th:href="@{/fontawesome/all.css}" />
-	<link rel="stylesheet" type="text/css" th:href="@{/styles.css}" />
+	<link rel="stylesheet" type="text/css" th:href="@{/style.css}" />
 	<script type="text/javascript" th:src="@{/webjars/jquery/jquery.min.js}"></script>
 	<script type="text/javascript" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 	<script type="text/javascript" th:src="@{/js/common.js}"></script>
 </head>
 
 <body>
+
+	<!-- User Start -->
 
 	<th th:fragment="column_link(fieldName, columnLabel, removeTag)" th:remove="${removeTag}">
 
@@ -41,19 +43,41 @@
 
 	<div th:fragment="user_status" th:remove="tag">
 		<a th:if="${user.enabled == true}" class="fas fa-check-circle fa-2x icon-green" style="text-decoration: none;"
-			th:href="@{'/users/' + ${user.id} + '/enabled/false'}" title="Disable this user"></a>
+			th:href="@{'/users/' + ${user.id} + '/enabled/false'}" title="Disable This User"></a>
 
 		<a th:if="${user.enabled == false}" class="fas fa-circle fa-2x icon-dark" style="text-decoration: none;"
-			th:href="@{'/users/' + ${user.id} + '/enabled/true'}" title="Enable this user"></a>
+			th:href="@{'/users/' + ${user.id} + '/enabled/true'}" title="Enable This User"></a>
 	</div>
 
 	<div th:fragment="user_actions" th:remove="tag">
 		<a class="fas fa-edit fa-2x icon-green" th:href="@{'/users/edit/' + ${user.id}}" style="text-decoration: none;"
-			title="Edit this user"></a>
+			title="Edit This User"></a>
 		&nbsp;
 		<a class="fas fa-trash fa-2x icon-dark link-delete" th:href="@{'/users/delete/' + ${user.id}}"
 			th:userId="${user.id}" title="Delete this user"></a>
 	</div>
+
+	<!-- User End -->
+
+	<!-- Category Start -->
+
+	<div th:fragment="category_status" th:remove="tag">
+		<a th:if="${cat.enabled == true}" class="fas fa-check-circle fa-2x icon-green"
+			th:href="@{'/categories/' + ${cat.id} + '/enabled/false'}" title="Disable This Category"></a>
+
+		<a th:if="${cat.enabled == false}" class="fas fa-circle fa-2x icon-dark"
+			th:href="@{'/categories/' + ${cat.id} + '/enabled/true'}" title="Enable This Category"></a>
+	</div>
+
+	<div th:fragment="category_actions" th:remove="tag">
+		<a class="fas fa-edit fa-2x icon-green" th:href="@{'/categories/edit/' + ${cat.id}}"
+			title="Edit This Category"></a>
+		&nbsp;
+		<a class="fas fa-trash fa-2x icon-dark link-delete" th:href="@{'/categories/delete/' + ${cat.id}}"
+			th:catId="${cat.id}" title="Delete This Category"></a>
+	</div>
+
+	<!-- Category End -->
 
 	<div th:fragment="footer" class="text-center m-3">
 		<p>TechStore Control Panel - Copyright &copy; Techstore</p>

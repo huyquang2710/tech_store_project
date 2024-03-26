@@ -9,11 +9,17 @@ public class Constant {
 	
 	public static final String USER = "user";
 	
+	public static final String CATEGORY_LIST = "categoriesList";
+
+	public static final String CATEGORY = "category";
+	
 	public static final String USER_LIST = "User List";
 	
 	public static final String ROLE_LIST = "rolesList";
 	
 	public static final String CREATE_NEW_USER = "Create New User";
+	
+	public static final String CREATE_NEW_CATEGORY = "Create New Category";
 	
 	public static final String UPDATE_USER = "Update User";
 	

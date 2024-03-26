@@ -77,6 +77,7 @@ public class UserController {
 		System.out.println(">>>>>>>>>>>>>>> : Total page: " + pageUser.getTotalPages());
 		System.out.println(">>>>>>>>>>>>>>> : statrt count: " + startCount);
 		System.out.println(">>>>>>>>>>>>>>> : end count: " + endCount);
+		System.out.println("-----------------------------");
 
 		model.addAttribute(Constant.CURRENT_PAGE, pageNum);
 		model.addAttribute(Constant.START_COUNT, startCount);
