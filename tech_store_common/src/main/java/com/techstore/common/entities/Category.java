@@ -131,4 +131,20 @@ public class Category {
 				+ enabled + ", parent=" + parent + ", children=" + children + "]";
 	}
 
+	public static Category copyIdAndName(Category category) {
+		Category copyCategory = new Category();
+		copyCategory.setId(category.getId());
+		copyCategory.setName(category.getName());
+
+		return copyCategory;
+	}
+
+	public static Category copyIdAndName(String name, Integer id) {
+		Category copyCategory = new Category();
+		copyCategory.setId(id);
+		copyCategory.setName(name);
+
+		return copyCategory;
+	}
+
 }

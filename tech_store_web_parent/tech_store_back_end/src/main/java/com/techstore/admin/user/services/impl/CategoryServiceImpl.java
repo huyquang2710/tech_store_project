@@ -40,7 +40,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 				for (Category subCategory : children) {
 					String name = "--" + subCategory.getName();
-					categoriesInForm.add(new Category(name));
+					categoriesInForm.add(Category.copyIdAndName(name, subCategory.getId()));
 
 					listChildren(categoriesInForm, subCategory, 1);
 
@@ -62,10 +62,15 @@ public class CategoryServiceImpl implements CategoryService {
 			}
 			name += subCategory.getName();
 
-			categoriesUsedInForm.add(new Category(name));
+			categoriesUsedInForm.add(Category.copyIdAndName(name, subCategory.getId()));
 
 			listChildren(categoriesUsedInForm, subCategory, newSubLevel);
 		}
+	}
+
+	@Override
+	public Category saveCategory(Category category) {
+		return categoryRepository.save(category);
 	}
 
 }

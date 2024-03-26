@@ -8,4 +8,6 @@ public interface CategoryService {
 	List<Category> findAll();
 
 	List<Category> listCategoriesUsedInForm();
+
+	Category saveCategory(Category category);
 }
