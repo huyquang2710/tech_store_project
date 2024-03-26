@@ -139,7 +139,7 @@ public class Category {
 		return copyCategory;
 	}
 
-	public static Category copyIdAndName(String name, Integer id) {
+	public static Category copyIdAndName(Integer id, String name) {
 		Category copyCategory = new Category();
 		copyCategory.setId(id);
 		copyCategory.setName(name);

@@ -19,39 +19,73 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public List<Category> findAll() {
+		List<Category> rootCategories = categoryRepository.listRootCategories();
+		return listHierarchicalCategories(rootCategories);
+	}
 
-		List<Category> categoties = (List<Category>) categoryRepository.findAll();
+	private List<Category> listHierarchicalCategories(List<Category> rootCategories) {
+		List<Category> hierarchicalCategories = new ArrayList<>();
 
-		return categoties;
+		for (Category rootCategory : rootCategories) {
+			hierarchicalCategories.add(Category.copyIdAndName(rootCategory));
+
+			Set<Category> children = rootCategory.getChildren();
+
+			for (Category subCategory : children) {
+				String name = "--" + subCategory.getName();
+				hierarchicalCategories.add(Category.copyIdAndName(subCategory.getId(), name));
+
+				listSubHierarchicalCategories(hierarchicalCategories, subCategory, 1);
+			}
+		}
+
+		return hierarchicalCategories;
+	}
+
+	private void listSubHierarchicalCategories(List<Category> hierarchicalCategories, Category parent, int subLevel) {
+		Set<Category> children = parent.getChildren();
+		int newSubLevel = subLevel + 1;
+
+		for (Category subCategory : children) {
+			String name = "";
+			for (int i = 0; i < newSubLevel; i++) {
+				name += "--";
+			}
+			name += subCategory.getName();
+
+			hierarchicalCategories.add(Category.copyIdAndName(subCategory.getId(), name));
+
+			listSubHierarchicalCategories(hierarchicalCategories, subCategory, newSubLevel);
+		}
+
 	}
 
 	@Override
 	public List<Category> listCategoriesUsedInForm() {
 
-		List<Category> categoriesInForm = new ArrayList<>();
-		// Iterable<Category> categoriesInDB = categoryRepository.findAll();
-		List<Category> categoriesInDB = (List<Category>) categoryRepository.findAll();
+		List<Category> categoriesUsedInForm = new ArrayList<>();
+
+		Iterable<Category> categoriesInDB = categoryRepository.findAll();
 
 		for (Category category : categoriesInDB) {
 			if (category.getParent() == null) {
-				categoriesInForm.add(new Category(category.getName()));
+				categoriesUsedInForm.add(Category.copyIdAndName(category));
 
 				Set<Category> children = category.getChildren();
 
 				for (Category subCategory : children) {
 					String name = "--" + subCategory.getName();
-					categoriesInForm.add(Category.copyIdAndName(name, subCategory.getId()));
+					categoriesUsedInForm.add(Category.copyIdAndName(subCategory.getId(), name));
 
-					listChildren(categoriesInForm, subCategory, 1);
-
+					listSubCategoriesUsedInForm(categoriesUsedInForm, subCategory, 1);
 				}
 			}
 		}
 
-		return categoriesInForm;
+		return categoriesUsedInForm;
 	}
 
-	private void listChildren(List<Category> categoriesUsedInForm, Category parent, int subLevel) {
+	private void listSubCategoriesUsedInForm(List<Category> categoriesUsedInForm, Category parent, int subLevel) {
 		int newSubLevel = subLevel + 1;
 		Set<Category> children = parent.getChildren();
 
@@ -62,9 +96,9 @@ public class CategoryServiceImpl implements CategoryService {
 			}
 			name += subCategory.getName();
 
-			categoriesUsedInForm.add(Category.copyIdAndName(name, subCategory.getId()));
+			categoriesUsedInForm.add(Category.copyIdAndName(subCategory.getId(), name));
 
-			listChildren(categoriesUsedInForm, subCategory, newSubLevel);
+			listSubCategoriesUsedInForm(categoriesUsedInForm, subCategory, newSubLevel);
 		}
 	}
 
@@ -72,5 +106,4 @@ public class CategoryServiceImpl implements CategoryService {
 	public Category saveCategory(Category category) {
 		return categoryRepository.save(category);
 	}
-
 }

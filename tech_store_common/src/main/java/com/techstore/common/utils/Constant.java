@@ -2,6 +2,8 @@ package com.techstore.common.utils;
 
 public class Constant {
 	public static final Integer INT_1 = 1;
+	
+	public static final String DASH_DASH = "--";
 
 	public static final String MESSAGE = "message";
 	
