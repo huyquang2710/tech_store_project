@@ -107,4 +107,14 @@ public class CategoryRepositoryTest {
 		}
 	}
 
+	@Test
+	public void printListCategories() {
+		List<Category> categories = (List<Category>) categoryRepository.findAll();
+		
+		categories.forEach(cat -> System.out.println(cat.getImage()));
+		
+		System.out.println("------------------");
+		
+		categories.forEach(cat -> System.out.println(cat.getImagePath()));
+	}
 }

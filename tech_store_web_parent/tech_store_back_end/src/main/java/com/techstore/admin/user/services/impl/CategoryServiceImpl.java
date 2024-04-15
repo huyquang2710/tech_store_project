@@ -27,13 +27,13 @@ public class CategoryServiceImpl implements CategoryService {
 		List<Category> hierarchicalCategories = new ArrayList<>();
 
 		for (Category rootCategory : rootCategories) {
-			hierarchicalCategories.add(Category.copyIdAndName(rootCategory));
+			hierarchicalCategories.add(Category.copyFull(rootCategory));
 
 			Set<Category> children = rootCategory.getChildren();
 
 			for (Category subCategory : children) {
 				String name = "--" + subCategory.getName();
-				hierarchicalCategories.add(Category.copyIdAndName(subCategory.getId(), name));
+				hierarchicalCategories.add(Category.copyFull(subCategory, name));
 
 				listSubHierarchicalCategories(hierarchicalCategories, subCategory, 1);
 			}
@@ -53,7 +53,7 @@ public class CategoryServiceImpl implements CategoryService {
 			}
 			name += subCategory.getName();
 
-			hierarchicalCategories.add(Category.copyIdAndName(subCategory.getId(), name));
+			hierarchicalCategories.add(Category.copyFull(subCategory, name));
 
 			listSubHierarchicalCategories(hierarchicalCategories, subCategory, newSubLevel);
 		}
@@ -69,13 +69,13 @@ public class CategoryServiceImpl implements CategoryService {
 
 		for (Category category : categoriesInDB) {
 			if (category.getParent() == null) {
-				categoriesUsedInForm.add(Category.copyIdAndName(category));
+				categoriesUsedInForm.add(Category.copyFull(category));
 
 				Set<Category> children = category.getChildren();
 
 				for (Category subCategory : children) {
 					String name = "--" + subCategory.getName();
-					categoriesUsedInForm.add(Category.copyIdAndName(subCategory.getId(), name));
+					categoriesUsedInForm.add(Category.copyFull(subCategory, name));
 
 					listSubCategoriesUsedInForm(categoriesUsedInForm, subCategory, 1);
 				}
@@ -96,7 +96,7 @@ public class CategoryServiceImpl implements CategoryService {
 			}
 			name += subCategory.getName();
 
-			categoriesUsedInForm.add(Category.copyIdAndName(subCategory.getId(), name));
+			categoriesUsedInForm.add(Category.copyFull(subCategory, name));
 
 			listSubCategoriesUsedInForm(categoriesUsedInForm, subCategory, newSubLevel);
 		}

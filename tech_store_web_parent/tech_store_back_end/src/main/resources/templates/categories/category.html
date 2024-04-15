@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="fragments :: page_head('Categories - Shopme Admin')" />
+<head th:replace="fragments :: page_head('Categories - TechStore Admin')" />
 
 <body>
     <div class="container-fluid">
@@ -55,7 +55,12 @@
                 <tbody>
                     <tr th:each="cat : ${categoriesList}">
                         <td>[[${cat.id}]]</td>
-                        <td></td>
+                        <td>
+                            <img th:if="${cat.imagePath == null}" id="thumbnail" alt="Image preview"
+                                th:src="@{/images/image-thumbnail.png}" class="img-fluid" />
+                            <img th:if="${cat.imagePath != null}" th:src="@{${cat.imagePath}}" style="width: 100px"
+                                class="img-fluid" />
+                        </td>
                         <td>[[${cat.name}]]</td>
                         <td>[[${cat.alias}]]</td>
                         <td>
